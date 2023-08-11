@@ -1,11 +1,14 @@
 package com.route.IslamiC38Fri.ui.home.fragments.quran
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.route.IslamiC38Fri.databinding.FragmentQuranBinding
+import com.route.IslamiC38Fri.ui.Constants
+import com.route.IslamiC38Fri.ui.chapterDetails.ChapterDetails
 
 class QuranFragment : Fragment() {
     var names = listOf(
@@ -147,12 +150,20 @@ class QuranFragment : Fragment() {
         adapter = ChapterRecyclerAdapter(names)
         binding.recyclerView.adapter = adapter
         adapter.onItemClickListener =
-            ChapterRecyclerAdapter.OnItemClickListener { position, item ->
+            ChapterRecyclerAdapter.OnItemClickListener { position, suraName ->
+                startSuraDetailsActivity(position + 1, suraName)
                 // start activity
                 // send chapter name and position to the next activity
             }
 //        binding.recyclerView.addItemDecoration(
 //
 //        )
+    }
+
+    private fun startSuraDetailsActivity(fileIndex: Int, suraName: String) {
+        val intent = Intent(activity, ChapterDetails::class.java)
+        intent.putExtra(Constants.EXTRA_CHAPTER_NAME, suraName)
+        intent.putExtra(Constants.EXTRA_CHAPTER_INDEX, fileIndex)
+        startActivity(intent)
     }
 }
